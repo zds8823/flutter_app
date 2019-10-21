@@ -5,6 +5,8 @@ import 'package:flutter_app/custom_dailog.dart';
 import 'package:flutter_app/game_button.dart';
 import 'package:flutter_app/components/time.dart';
 import 'package:flutter_app/components/dependencies.dart';
+import 'package:flutter_app/components/map.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -128,26 +130,39 @@ class _HomePageState extends State<HomePage> {
       new GameButton(id: 96),
 
     ];
+
     return gameButtons;
   }
+  
 
   void playGame(GameButton gb) {
+
     setState(() {
-      if (activePlayer == 1) {
-        gb.text = "X";
+
+      if (tower >= 1) {
+        gb.text = towert;
+        if (tower == 1) {
+          //change these colors to sprites
         gb.bg = Colors.red;
-        activePlayer = 2;
-        player1.add(gb.id);
-      } else {
-        gb.text = "0";
-        gb.bg = Colors.black;
-        activePlayer = 1;
-        player2.add(gb.id);
+        }
+        if (tower == 2) {
+          gb.bg = Colors.green;
+        }
+        if (tower == 3) {
+          gb.bg = Colors.yellow;
+        }
+        if (tower == 4) {
+          gb.bg = Colors.blue;
+        }
       }
+
+
       gb.enabled = false;
       int winner = checkWinner();
+
       if (winner == -1) {
         if (buttonsList.every((p) => p.text != "")) {
+
           showDialog(
               context: context,
               builder: (_) => new CustomDialog("Game Tied",
@@ -159,12 +174,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
+
   void autoPlay() {
     var emptyCells = new List();
-    var list = new List.generate(9, (i) => i + 1);
+    var list = new List.generate(96, (i) => i + 1);
     for (var cellID in list) {
-      if (!(player1.contains(cellID) || player2.contains(cellID))) {
-        emptyCells.add(cellID);
+      if (!(player1.contains(cellID))) {
       }
     }
 
@@ -176,27 +192,41 @@ class _HomePageState extends State<HomePage> {
 
   }
 
+
   int checkWinner() {
     var winner = -1;
     if (player1.contains(1) && player1.contains(2) && player1.contains(3)) {
       winner = 1;
     }
 
-    if (winner != -1) {
       if (winner == 1) {
         showDialog(
             context: context,
             builder: (_) => new CustomDialog("Player 1 Won",
                 "Press the reset button to start again.", resetGame));
-      } else {
-        showDialog(
-            context: context,
-            builder: (_) => new CustomDialog("Player 2 Won",
-                "Press the reset button to start again.", resetGame));
       }
-    }
-
     return winner;
+  }
+
+//Sets the squares to the tower type
+  String towert  = "";
+  var tower =1;
+
+  void settower1(){
+    towert = "";
+    tower = 1;
+  }
+  void settower2(){
+    towert = "";
+    tower = 2;
+  }
+  void settower3(){
+    towert = "";
+    tower = 3;
+  }
+  void settower4(){
+    towert = "";
+    tower = 4;
   }
 
   void resetGame() {
@@ -206,11 +236,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    
+
+
     buttonsList[10].bg = Colors.cyanAccent;
     buttonsList[11].bg = Colors.brown;
     buttonsList[12].bg = Colors.brown;
@@ -225,7 +254,7 @@ class _HomePageState extends State<HomePage> {
     buttonsList[70].bg = Colors.brown;
     buttonsList[78].bg = Colors.brown;
     buttonsList[86].bg = Colors.pink;
-
+    
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("game test"),
@@ -240,14 +269,16 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   new Text(
-                      "Element 1"
-
+                      "Timer",
                   ),
                   new Text(
-                      "Element 2"
+                    "Score: 0",
                   ),
                   new Text(
-                      "Element 3"
+                    "Lives: 30",
+                  ),
+                  new Text(
+                      "Money",
                   ),
                 ],
               ),
@@ -267,9 +298,11 @@ class _HomePageState extends State<HomePage> {
                   height: 2.0,
                   child: new RaisedButton(
                     padding: const EdgeInsets.all(8.0),
+
                     onPressed: buttonsList[i].enabled
                         ? () => playGame(buttonsList[i])
                         : null,
+
                     child: new Text(
                       buttonsList[i].text,
                       style: new TextStyle(
@@ -292,34 +325,34 @@ class _HomePageState extends State<HomePage> {
                    ),
                     color: Colors.red,
                     padding: const EdgeInsets.all(20.0),
-                    onPressed: resetGame,
+                    onPressed: settower1,
                   ),
                   new RaisedButton(
                      child: new Text(
                        "Tower 2",
-                    style: new TextStyle(color: Colors.white, fontSize: 10.0),
+                       style: new TextStyle(color: Colors.white, fontSize: 10.0),
                     ),
                     color: Colors.green,
                     padding: const EdgeInsets.all(20.0),
-                    onPressed: resetGame,
+                    onPressed: settower2,
                   ),
                   new RaisedButton(
                     child: new Text(
                       "Tower 3",
                       style: new TextStyle(color: Colors.white, fontSize: 10.0),
-                    ),
+                                          ),
                     color: Colors.yellow,
                     padding: const EdgeInsets.all(20.0),
-                    onPressed: resetGame,
+                    onPressed: settower3,
                   ),
                   new RaisedButton(
                      child: new Text(
                        "Tower 4",
-                    style: new TextStyle(color: Colors.white, fontSize: 10.0),
+                      style: new TextStyle(color: Colors.white, fontSize: 10.0),
                   ),
                     color: Colors.blue,
                     padding: const EdgeInsets.all(20.0),
-                    onPressed: resetGame,
+                    onPressed: settower4,
                   )
                 ],
               ),
@@ -328,7 +361,7 @@ class _HomePageState extends State<HomePage> {
 
           ],
         ));
-
-
   }
+
+
 }
