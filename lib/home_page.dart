@@ -210,6 +210,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
+    buttonsList[10].bg = Colors.cyanAccent;
+    buttonsList[11].bg = Colors.brown;
+    buttonsList[12].bg = Colors.brown;
+    buttonsList[13].bg = Colors.brown;
+    buttonsList[14].bg = Colors.brown;
+    buttonsList[22].bg = Colors.brown;
+    buttonsList[30].bg = Colors.brown;
+    buttonsList[38].bg = Colors.brown;
+    buttonsList[46].bg = Colors.brown;
+    buttonsList[54].bg = Colors.brown;
+    buttonsList[62].bg = Colors.brown;
+    buttonsList[70].bg = Colors.brown;
+    buttonsList[78].bg = Colors.brown;
+    buttonsList[86].bg = Colors.pink;
+
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("game test"),
